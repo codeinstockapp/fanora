@@ -1,103 +1,222 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState } from "react";
+import Banner from "@/components/Banner";
+import Card from "@/components/Card";
+import Chip from "@/components/Chip";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import { movieCategories } from "@/constants/movieCat";
+import {
+  tollywoodMovies,
+  hollywoodMovies,
+  bollywoodMovies,
+  kollywoodMovies,
+  sandalwoodMovies,
+} from "@/constants/movies";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  // Combine all movies with proper structure
+  const allMovies = [
+    ...tollywoodMovies.map((movie: any) => ({
+      ...movie,
+      category: "tollywood",
+      price: 29.99,
+      rating: 4.5,
+    })),
+    ...hollywoodMovies.map((movie: any) => ({
+      ...movie,
+      category: "hollywood",
+      price: 34.99,
+      rating: 4.7,
+    })),
+    ...bollywoodMovies.map((movie: any) => ({
+      ...movie,
+      category: "bollywood",
+      price: 27.99,
+      rating: 4.3,
+    })),
+    ...kollywoodMovies.map((movie: any) => ({
+      ...movie,
+      category: "kollywood",
+      price: 31.99,
+      rating: 4.6,
+    })),
+    ...sandalwoodMovies.map((movie: any) => ({
+      ...movie,
+      category: "sandalwood",
+      price: 28.99,
+      rating: 4.4,
+    })),
+  ];
+
+  // Filter movies based on selected category
+  const filteredMovies =
+    selectedCategory === "all"
+      ? allMovies
+      : allMovies.filter((movie) => movie.category === selectedCategory);
+
+  const handleCategorySelect = (categorySlug: string) => {
+    setSelectedCategory(categorySlug);
+  };
+
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+
+      {/* Main Content */}
+      <main className="pt-20">
+        <Banner />
+
+        {/* Featured Categories Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Shop by <span className="text-accent">Category</span>
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Discover premium merchandise from your favorite movies and
+              franchises
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            {/* All Categories Chip */}
+            <div className="animate-fade-in-up">
+              <button
+                onClick={() => handleCategorySelect("all")}
+                className={`glass-card px-6 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                  selectedCategory === "all"
+                    ? "border-purple-400 bg-purple-400/20"
+                    : ""
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-3 h-3 rounded-full bg-gradient-to-r from-purple-400 to-purple-600 shadow-lg"></div>
+                  <span
+                    className={`font-medium text-sm md:text-base transition-colors duration-200 ${
+                      selectedCategory === "all"
+                        ? "text-purple-300"
+                        : "text-white hover:text-purple-300"
+                    }`}
+                  >
+                    All Movies
+                  </span>
+                </div>
+              </button>
+            </div>
+
+            {movieCategories.map((cat: any, index: number) => (
+              <div
+                key={cat.slug}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${(index + 1) * 0.1}s` }}
+              >
+                <Chip
+                  category={cat}
+                  isSelected={selectedCategory === cat.slug}
+                  onSelect={() => handleCategorySelect(cat.slug)}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Featured Products Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              {selectedCategory === "all"
+                ? "Handpicked premium merchandise from all movie industries"
+                : `Premium merchandise from ${
+                    movieCategories.find(
+                      (cat: any) => cat.slug === selectedCategory
+                    )?.name || "selected"
+                  } movies`}
+            </p>
+            <div className="mt-4 text-sm text-gray-500">
+              Showing {filteredMovies.length} products
+            </div>
+          </div>
+
+          {filteredMovies.length > 0 ? (
+            <div className="masonry-grid">
+              {filteredMovies.map((movie: any, index: number) => (
+                <div
+                  key={`${movie.category}-${movie.slug}`}
+                  className="masonry-item animate-fade-in-up"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <Card
+                    movie={{
+                      id: movie.slug,
+                      title: movie.name,
+                      image: movie.image,
+                      price: movie.price,
+                      originalPrice: movie.price + 10,
+                      rating: movie.rating,
+                      category:
+                        movie.category.charAt(0).toUpperCase() +
+                        movie.category.slice(1),
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <div className="glass-card p-8 max-w-md mx-auto">
+                <div className="text-gray-400 mb-4">
+                  <svg
+                    className="w-16 h-16 mx-auto mb-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1}
+                      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  No Products Found
+                </h3>
+                <p className="text-gray-400">
+                  No products available for this category yet.
+                </p>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* Newsletter Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="glass-card p-8 md:p-12 text-center">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Stay Updated
+            </h3>
+            <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+              Get notified about new releases, exclusive drops, and special
+              offers
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="input-glass flex-1"
+              />
+              <button className="btn-primary px-8">Subscribe</button>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <Footer />
     </div>
   );
 }
