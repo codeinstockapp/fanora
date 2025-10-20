@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Image from "next/image";
+import signin from "../../../public/signin.svg";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -54,8 +56,12 @@ export default function LoginPage() {
     <div className="min-h-screen">
       <Navbar />
 
-      <main className="pt-20 pb-16">
-        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+      <main
+        className={`md:pt-32 pt-16 pb-16 ${
+          isLogin ? "h-[80vh] mt-20" : "h-[100vh] mt-40"
+        }`}
+      >
+        <div className=" max-w-full h-full flex md:flex-row flex-col justify-center gap-[10px] md:gap-[90px] items-center px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
@@ -66,10 +72,11 @@ export default function LoginPage() {
                 ? "Sign in to your FANORA account"
                 : "Join FANORA and discover amazing movie merchandise"}
             </p>
+            {/* <Image src={signin} alt="signin" width={540} height={540} /> */}
           </div>
 
           {/* Auth Form */}
-          <div className="glass-card p-6 sm:p-8 bg-black/40 backdrop-blur-xl border border-white/20">
+          <div className="glass-card md:w-md w-full p-6 sm:p-8 bg-black/40 backdrop-blur-xl border border-white/20">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Fields (Register Only) */}
               {!isLogin && (

@@ -101,48 +101,52 @@ export default function CheckoutPage() {
           <div className="glass-card p-6">
             <div className="flex items-center justify-between">
               {steps.map((step, index) => (
-                <div key={step.id} className="flex items-center">
-                  <div
-                    className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-200 ${
-                      step.completed || currentStep === step.id
-                        ? "border-purple-400 bg-purple-400/20 text-purple-400"
-                        : "border-gray-600 text-gray-400"
-                    }`}
-                  >
-                    {step.completed ? (
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    ) : (
-                      <span className="text-sm font-medium">{step.id}</span>
+                <div className="flex md:flex-row flex-col justify-center">
+                  <div key={step.id} className="flex items-center">
+                    <div
+                      className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-200 ${
+                        step.completed || currentStep === step.id
+                          ? "border-purple-400 bg-purple-400/20 text-purple-400"
+                          : "border-gray-600 text-gray-400"
+                      }`}
+                    >
+                      {step.completed ? (
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      ) : (
+                        <span className="text-sm font-medium">{step.id}</span>
+                      )}
+                    </div>
+                    <span
+                      className={`hidden md:block ml-3 text-sm font-medium ${
+                        step.completed || currentStep === step.id
+                          ? "text-white"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      {step.name}
+                    </span>
+                    {index < steps.length - 1 && (
+                      <div
+                        className={`w-16 h-0.5 mx-4 ${
+                          step.completed ? "bg-purple-400" : "bg-gray-600"
+                        }`}
+                      />
                     )}
                   </div>
-                  <span
-                    className={`ml-3 text-sm font-medium ${
-                      step.completed || currentStep === step.id
-                        ? "text-white"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    {step.name}
-                  </span>
-                  {index < steps.length - 1 && (
-                    <div
-                      className={`w-16 h-0.5 mx-4 ${
-                        step.completed ? "bg-purple-400" : "bg-gray-600"
-                      }`}
-                    />
-                  )}
+
+                  <span className="block md:hidden">{step.name}</span>
                 </div>
               ))}
             </div>

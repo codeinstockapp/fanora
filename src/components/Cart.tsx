@@ -44,8 +44,8 @@ function Cart() {
 
       {/* Cart Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 max-w-[calc(100vw-2rem)] z-50">
-          <div className="glass-card p-4 sm:p-6 bg-black/80 backdrop-blur-xl border border-white/20">
+        <div className="absolute right-0 top-full mt-7 max-w-[100vw] md:max-w-[calc(100vw-2rem)] z-50">
+          <div className="glass-card w-[380px] ml-[86px] p-4 sm:p-6 bg-black/80 backdrop-blur-xl border border-white/20">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-white">
                 Shopping Cart

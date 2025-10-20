@@ -111,7 +111,7 @@ function Card({ movie }: CardProps) {
           </h3>
 
           {/* Rating & Price Row */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col  justify-between">
             {/* Rating */}
             <div className="flex items-center space-x-1">
               <div className="flex">
